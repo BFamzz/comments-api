@@ -36,15 +36,15 @@ func (d *Database) GetComment(ctx context.Context, uuid string) (comment.Comment
 	return convertCommentRowToComment(commentRow), nil
 }
 
-func (d *Database) PostComment(ctx context.Context, comment comment.Comment) (comment.Comment, error) {
-	comment.ID = uuid.New().String()
-	fmt.Println(comment.ID)
+func (d *Database) PostComment(ctx context.Context, newComment comment.Comment) (comment.Comment, error) {
+	newComment.ID = uuid.New().String()
+	fmt.Println(newComment.ID)
 
 	postCommentRow := CommentRow{
-		ID:     comment.ID,
-		Slug:   sql.NullString{String: comment.Slug, Valid: true},
-		Author: sql.NullString{String: comment.Author, Valid: true},
-		Body:   sql.NullString{String: comment.Body, Valid: true},
+		ID:     newComment.ID,
+		Slug:   sql.NullString{String: newComment.Slug, Valid: true},
+		Author: sql.NullString{String: newComment.Author, Valid: true},
+		Body:   sql.NullString{String: newComment.Body, Valid: true},
 	}
 	rows, err := d.Client.NamedQueryContext(ctx, `INSERT INTO comments (id, slug, author, body)
 		VALUES (:id, :slug, :author, :body)`, postCommentRow)
@@ -57,5 +57,5 @@ func (d *Database) PostComment(ctx context.Context, comment comment.Comment) (co
 		return comment.Comment{}, fmt.Errorf("failed to close db rows: %w", err)
 	}
 
-	return comment, nil
+	return newComment, nil
 }

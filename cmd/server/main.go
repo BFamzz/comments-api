@@ -29,6 +29,12 @@ func Run() error {
 		Body:   "Hello, World!",
 	})
 
+	if err != nil {
+		fmt.Println("failed to insert new comment: %w", err)
+	}
+
+	fmt.Println("new comment is: %w", newComment)
+
 	fmt.Println(commentService.GetComment(context.Background(),
 		"276c1dcc-b800-4801-a870-380d891dbc6a"))
 
