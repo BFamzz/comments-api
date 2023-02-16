@@ -21,7 +21,16 @@ func Run() error {
 	}
 
 	commentService := comment.NewService(database)
-	fmt.Println(commentService.GetComment(context.Background(), "276c1dcc-b800-4801-a870-380d891dbc6a"))
+
+	newComment, err := commentService.PostComment(context.Background(), comment.Comment{
+		ID:     "276c1dcc-b800-4801-a870-380d891dbc6a",
+		Slug:   "manual-test",
+		Author: "Busayo",
+		Body:   "Hello, World!",
+	})
+
+	fmt.Println(commentService.GetComment(context.Background(),
+		"276c1dcc-b800-4801-a870-380d891dbc6a"))
 
 	return nil
 }

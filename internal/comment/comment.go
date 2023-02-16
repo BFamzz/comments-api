@@ -24,6 +24,7 @@ type Comment struct {
 // to operate
 type Store interface {
 	GetComment(context.Context, string) (Comment, error)
+	PostComment(ctx context.Context, comment Comment) (Comment, error)
 }
 
 // Service - contains all the business logic
@@ -56,6 +57,11 @@ func (s *Service) DeleteComment(ctx context.Context, id string) error {
 	return ErrNotImplemented
 }
 
-func (s *Service) CreateComment(ctx context.Context, comment Comment) (Comment, error) {
-	return Comment{}, ErrNotImplemented
+func (s *Service) PostComment(ctx context.Context, comment Comment) (Comment, error) {
+	insertedComment, err := s.Store.PostComment(ctx, comment)
+	if err != nil {
+		return Comment{}, err
+	}
+
+	return insertedComment, nil
 }
