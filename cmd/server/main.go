@@ -1,10 +1,10 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/BFamzz/comments-api/internal/comment"
 	"github.com/BFamzz/comments-api/internal/db"
+	transportHttp "github.com/BFamzz/comments-api/internal/transport/http"
 )
 
 func Run() error {
@@ -22,21 +22,10 @@ func Run() error {
 
 	commentService := comment.NewService(database)
 
-	newComment, err := commentService.PostComment(context.Background(), comment.Comment{
-		ID:     "276c1dcc-b800-4801-a870-380d891dbc6a",
-		Slug:   "manual-test",
-		Author: "Busayo",
-		Body:   "Hello, World!",
-	})
-
-	if err != nil {
-		fmt.Println("failed to insert new comment: %w", err)
+	httpHandler := transportHttp.NewHandler(commentService)
+	if err := httpHandler.Serve(); err != nil {
+		return err
 	}
-
-	fmt.Println("new comment is: %w", newComment)
-
-	fmt.Println(commentService.GetComment(context.Background(),
-		"276c1dcc-b800-4801-a870-380d891dbc6a"))
 
 	return nil
 }
