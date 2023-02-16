@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
 	"github.com/BFamzz/comments-api/internal/comment"
 	"github.com/google/uuid"
 )
@@ -38,7 +39,6 @@ func (d *Database) GetComment(ctx context.Context, uuid string) (comment.Comment
 
 func (d *Database) PostComment(ctx context.Context, newComment comment.Comment) (comment.Comment, error) {
 	newComment.ID = uuid.New().String()
-	fmt.Println(newComment.ID)
 
 	postCommentRow := CommentRow{
 		ID:     newComment.ID,
