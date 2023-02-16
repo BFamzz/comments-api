@@ -29,9 +29,7 @@ func NewDatabase() (*Database, error) {
 		return &Database{}, fmt.Errorf("could not connect to the database: %w", err)
 	}
 
-	return &Database{
-		Client: dbConn,
-	}, nil
+	return &Database{Client: dbConn}, nil
 }
 
 func (d *Database) Ping(ctx context.Context) error {

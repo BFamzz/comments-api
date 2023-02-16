@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"github.com/BFamzz/comments-api/internal/comment"
 	"github.com/BFamzz/comments-api/internal/db"
 )
 
@@ -18,7 +20,8 @@ func Run() error {
 		return err
 	}
 
-	fmt.Println("successfully created and pinged the database")
+	commentService := comment.NewService(database)
+	fmt.Println(commentService.GetComment(context.Background(), "276c1dcc-b800-4801-a870-380d891dbc6a"))
 
 	return nil
 }
